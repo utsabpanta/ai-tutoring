@@ -1,0 +1,26 @@
+node_modules
+dist
+build
+.DS_Store
+*.log
+*.local
+
+# Env
+.env
+.env.local
+.env.*.local
+
+# SQLite
+*.db
+*.db-journal
+*.sqlite
+*.sqlite-journal
+data/
+
+# Eval status (regenerated per run)
+.eval-status
+
+# Editor
+.vscode/*
+!.vscode/extensions.json
+.idea
