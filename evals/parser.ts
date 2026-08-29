@@ -1,5 +1,5 @@
 import { readFile } from "node:fs/promises";
-import yaml from "js-yaml";
+import { load as loadYaml } from "js-yaml";
 
 export interface Assertion {
   not_contains?: string[];
@@ -37,7 +37,7 @@ export async function parseCase(filePath: string): Promise<EvalCase> {
     throw new Error(`${filePath}: missing frontmatter`);
   }
   const [, fmRaw, body] = match;
-  const frontmatter = yaml.load(fmRaw ?? "") as Frontmatter;
+  const frontmatter = loadYaml(fmRaw ?? "") as Frontmatter;
 
   const turns = parseTurns(body ?? "");
 
@@ -57,7 +57,7 @@ function parseTurns(body: string): Turn[] {
     const user = section.slice(userIdx + userTag.length, userEnd).trim();
     const assertYaml =
       assertIdx === -1 ? "" : section.slice(assertIdx + assertTag.length).trim();
-    const parsed = (yaml.load(assertYaml) ?? {}) as Assertion | unknown[] | null;
+    const parsed = (loadYaml(assertYaml) ?? {}) as Assertion | unknown[] | null;
     turns.push({ user, assert: normalizeAssertion(parsed) });
   }
   return turns;
